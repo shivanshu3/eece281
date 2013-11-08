@@ -17,7 +17,8 @@ CSEG              ; Absoulte CODE segments at fixed memory locations
     DB 0C0H, 0F9H, 0A4H, 0B0H, 099H        ; 0 TO 4
     DB 092H, 082H, 0F8H, 080H, 090H        ; 4 TO 9
     DB 088H, 083H, 0C6H, 0A1H, 086H, 08EH  ; A to F
-	T_7seg:       ; Look-up table for 7-seg displays. 
+	T_7seg:       ; Look-up table for 7-seg displays.
+	;djlskdjlkasjdflksdfjl
     DB 40H, 79H, 24H, 30H, 19H
     DB 12H, 02H, 78H, 00H, 10H
 
