@@ -1,0 +1,410 @@
+                 -1   $modde2
+0000              1   ;  MODDDE2: Register definition for DE2-8052 softcore
+0000              2   ;
+0000              3   ;   Copyright (C) 2011  Jesus Calvino-Fraga, jesusc at ece.ubc.ca
+0000              4   ;
+0000              5   ;   This library is free software; you can redistribute it and/or
+0000              6   ;   modify it under the terms of the GNU Lesser General Public
+0000              7   ;   License as published by the Free Software Foundation; either
+0000              8   ;   version 2.1 of the License, or (at your option) any later version.
+0000              9   ;
+0000             10   ;   This library is distributed in the hope that it will be useful,
+0000             11   ;   but WITHOUT ANY WARRANTY; without even the implied warranty of
+0000             12   ;   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+0000             13   ;   Lesser General Public License for more details.
+0000             14   ;
+0000             15   ;   You should have received a copy of the GNU Lesser General Public
+0000             16   ;   License along with this library; if not, write to the Free Software
+0000             17   ;   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+0000             18   ;
+0000             19       
+0000             20   P0     DATA  080H  ;PORT 0
+0000             21   SP     DATA  081H  ;STACK POINTER
+0000             22   DPL    DATA  082H  ;DATA POINTER - LOW BYTE
+0000             23   DPH    DATA  083H  ;DATA POINTER - HIGH BYTE
+0000             24   PCON   DATA  087H  ;POWER CONTROL
+0000             25   TCON   DATA  088H  ;TIMER CONTROL
+0000             26   TMOD   DATA  089H  ;TIMER MODE
+0000             27   TL0    DATA  08AH  ;TIMER 0 - LOW BYTE
+0000             28   TL1    DATA  08BH  ;TIMER 1 - LOW BYTE
+0000             29   TH0    DATA  08CH  ;TIMER 0 - HIGH BYTE
+0000             30   TH1    DATA  08DH  ;TIMER 1 - HIGH BYTE
+0000             31   P1     DATA  090H  ;PORT 1
+0000             32   SCON   DATA  098H  ;SERIAL PORT CONTROL
+0000             33   SBUF   DATA  099H  ;SERIAL PORT BUFFER
+0000             34   P2     DATA  0A0H  ;PORT 2
+0000             35   IE     DATA  0A8H  ;INTERRUPT ENABLE
+0000             36   P3     DATA  0B0H  ;PORT 3
+0000             37   IP     DATA  0B8H  ;INTERRUPT PRIORITY
+0000             38   T2CON  DATA  0C8H  ;TIMER 2 CONTROL
+0000             39   T2MOD  DATA  0C9H  ;TIMER 2 MODE
+0000             40   RCAP2L DATA  0CAH  ;TIMER 2 CAPTURE REGISTER - LOW BYTE
+0000             41   RCAP2H DATA  0CBH  ;TIMER 2 CAPTURE REGISTER - HIGH BYTE
+0000             42   TL2    DATA  0CCH  ;TIMER 2 - LOW BYTE
+0000             43   TH2    DATA  0CDH  ;TIMER 2 - HIGH BYTE
+0000             44   PSW    DATA  0D0H  ;PROGRAM STATUS WORD
+0000             45   ACC    DATA  0E0H  ;ACCUMULATOR
+0000             46   B      DATA  0F0H  ;MULTIPLICATION REGISTER
+0000             47   IT0    BIT   088H  ;TCON.0 - EXT. INTERRUPT 0 TYPE
+0000             48   IE0    BIT   089H  ;TCON.1 - EXT. INTERRUPT 0 EDGE FLAG
+0000             49   IT1    BIT   08AH  ;TCON.2 - EXT. INTERRUPT 1 TYPE
+0000             50   IE1    BIT   08BH  ;TCON.3 - EXT. INTERRUPT 1 EDGE FLAG
+0000             51   TR0    BIT   08CH  ;TCON.4 - TIMER 0 ON/OFF CONTROL
+0000             52   TF0    BIT   08DH  ;TCON.5 - TIMER 0 OVERFLOW FLAG
+0000             53   TR1    BIT   08EH  ;TCON.6 - TIMER 1 ON/OFF CONTROL
+0000             54   TF1    BIT   08FH  ;TCON.7 - TIMER 1 OVERFLOW FLAG
+0000             55   RI     BIT   098H  ;SCON.0 - RECEIVE INTERRUPT FLAG
+0000             56   TI     BIT   099H  ;SCON.1 - TRANSMIT INTERRUPT FLAG
+0000             57   RB8    BIT   09AH  ;SCON.2 - RECEIVE BIT 8
+0000             58   TB8    BIT   09BH  ;SCON.3 - TRANSMIT BIT 8
+0000             59   REN    BIT   09CH  ;SCON.4 - RECEIVE ENABLE
+0000             60   SM2    BIT   09DH  ;SCON.5 - SERIAL MODE CONTROL BIT 2
+0000             61   SM1    BIT   09EH  ;SCON.6 - SERIAL MODE CONTROL BIT 1
+0000             62   SM0    BIT   09FH  ;SCON.7 - SERIAL MODE CONTROL BIT 0
+0000             63   EX0    BIT   0A8H  ;IE.0 - EXTERNAL INTERRUPT 0 ENABLE
+0000             64   ET0    BIT   0A9H  ;IE.1 - TIMER 0 INTERRUPT ENABLE
+0000             65   EX1    BIT   0AAH  ;IE.2 - EXTERNAL INTERRUPT 1 ENABLE
+0000             66   ET1    BIT   0ABH  ;IE.3 - TIMER 1 INTERRUPT ENABLE
+0000             67   ES     BIT   0ACH  ;IE.4 - SERIAL PORT INTERRUPT ENABLE
+0000             68   ET2    BIT   0ADH  ;IE.5 - TIMER 2 INTERRUPT ENABLE
+0000             69   EA     BIT   0AFH  ;IE.7 - GLOBAL INTERRUPT ENABLE
+0000             70   RXD    BIT   0B0H  ;P3.0 - SERIAL PORT RECEIVE INPUT
+0000             71   TXD    BIT   0B1H  ;P3.1 - SERIAL PORT TRANSMIT OUTPUT
+0000             72   INT0   BIT   0B2H  ;P3.2 - EXTERNAL INTERRUPT 0 INPUT
+0000             73   INT1   BIT   0B3H  ;P3.3 - EXTERNAL INTERRUPT 1 INPUT
+0000             74   T0     BIT   0B4H  ;P3.4 - TIMER 0 COUNT INPUT
+0000             75   T1     BIT   0B5H  ;P3.5 - TIMER 1 COUNT INPUT
+0000             76   WR     BIT   0B6H  ;P3.6 - WRITE CONTROL FOR EXT. MEMORY
+0000             77   RD     BIT   0B7H  ;P3.7 - READ CONTROL FOR EXT. MEMORY
+0000             78   PX0    BIT   0B8H  ;IP.0 - EXTERNAL INTERRUPT 0 PRIORITY
+0000             79   PT0    BIT   0B9H  ;IP.1 - TIMER 0 PRIORITY
+0000             80   PX1    BIT   0BAH  ;IP.2 - EXTERNAL INTERRUPT 1 PRIORITY
+0000             81   PT1    BIT   0BBH  ;IP.3 - TIMER 1 PRIORITY
+0000             82   PS     BIT   0BCH  ;IP.4 - SERIAL PORT PRIORITY
+0000             83   PT2    BIT   0BDH  ;IP.5 - TIMER 2 PRIORITY
+0000             84   CAP2   BIT   0C8H  ;T2CON.0 - CAPTURE OR RELOAD SELECT
+0000             85   CNT2   BIT   0C9H  ;T2CON.1 - TIMER OR COUNTER SELECT
+0000             86   TR2    BIT   0CAH  ;T2CON.2 - TIMER 2 ON/OFF CONTROL
+0000             87   EXEN2  BIT   0CBH  ;T2CON.3 - TIMER 2 EXTERNAL ENABLE FLAG
+0000             88   TCLK   BIT   0CCH  ;T2CON.4 - TRANSMIT CLOCK SELECT
+0000             89   RCLK   BIT   0CDH  ;T2CON.5 - RECEIVE CLOCK SELECTT
+0000             90   EXF2   BIT   0CEH  ;T2CON.6 - EXTERNAL TRANSITION FLAG
+0000             91   TF2    BIT   0CFH  ;T2CON.7 - TIMER 2 OVERFLOW FLAG
+0000             92   P      BIT   0D0H  ;PSW.0 - ACCUMULATOR PARITY FLAG
+0000             93   OV     BIT   0D2H  ;PSW.2 - OVERFLOW FLAG
+0000             94   RS0    BIT   0D3H  ;PSW.3 - REGISTER BANK SELECT 0
+0000             95   RS1    BIT   0D4H  ;PSW.4 - REGISTER BANK SELECT 1
+0000             96   F0     BIT   0D5H  ;PSW.5 - FLAG 0
+0000             97   AC     BIT   0D6H  ;PSW.6 - AUXILIARY CARRY FLAG
+0000             98   CY     BIT   0D7H  ;PSW.7 - CARRY FLAG
+0000             99   
+0000            100   ; For the altera DE2 configured with an 8051/8052 softcore processor
+0000            101   ; we have the following extra registers:
+0000            102   
+0000            103   HEX0   DATA  091H ; Zero turns the segment on
+0000            104   HEX1   DATA  092H ; 
+0000            105   HEX2   DATA  093H ; 
+0000            106   HEX3   DATA  094H ; 
+0000            107   HEX4   DATA  08EH ;
+0000            108   HEX5   DATA  08FH ;
+0000            109   HEX6   DATA  096H ;
+0000            110   HEX7   DATA  097H ;
+0000            111   
+0000            112   P0MOD  DATA  09AH ; Input/output mode bits for port 0.  '1' sets the port to output mode.
+0000            113   P1MOD  DATA  09BH ; Input/output mode bits for port 1
+0000            114   P2MOD  DATA  09CH ; Input/output mode bits for port 2
+0000            115   P3MOD  DATA  09DH ; Input/output mode bits for port 3
+0000            116   
+0000            117   LEDRA  DATA  0E8H ; LEDs LEDR0 to LEDR7 (bit addressable, ex: LEDRA.1 for LEDR1)
+0000            118   LEDRB  DATA  095H ; LEDs LEDR8 to LEDR15
+0000            119   LEDRC  DATA  09EH ; LEDs LEDR16, LEDR15, and LEDG8
+0000            120   LEDG   DATA  0F8H ; LEDs LEDG0 to LEDG7 (bit addressable, ex: LEDG.3 for LEDG3)
+0000            121   SWA    DATA  0E8H ; Switches SW0 to SW7 (bit addressable, ex: SWA.1 for SW1)
+0000            122   SWB    DATA  095H ; Switches SW8 to SW15
+0000            123   SWC    DATA  09EH ; Switches SW16 and SW17
+0000            124   KEY    DATA  0F8H ; KEY1=KEY.1, KEY2=KEY.2, KEY3=KEY.3.  KEY0 is the reset button! 
+0000            125   
+0000            126   LCD_CMD   DATA 0D8H ;
+0000            127   LCD_DATA  DATA 0D9H ;
+0000            128   LCD_MOD   DATA 0DAH ; Write 0xff to make LCD_DATA an output
+0000            129   LCD_RW    BIT  0D8H ; '0' writes to LCD
+0000            130   LCD_EN    BIT  0D9H ; Toggle from '1' to '0'
+0000            131   LCD_RS    BIT  0DAH ; '0' for commands, '1' for data
+0000            132   LCD_ON    BIT  0DBH ; Write '1' to power the LCD
+0000            133   LCD_BLON  BIT  0DCH ; Write '1' to turn on back light
+0000            134   
+0000            135   FLASH_CMD  data 0DBH ; The control bits of the flash memory:
+0000            136   ; bit 0: FL_RST_N  Set to 1 for normal operation
+0000            137   ; bit 1: FL_WE_N
+0000            138   ; bit 2: FL_OE_N
+0000            139   ; bit 3: FL_CE_N
+0000            140   FLASH_DATA data 0DCH ; 8-bit data bus of flash memory.
+0000            141   FLASH_MOD  data 0DDH ; 0xff makes FLASH_DATA output.  0x00 makes FLASH_DATA input.
+0000            142   FLASH_ADD0 data 0E1H ; address bits 0 to 7.
+0000            143   FLASH_ADD1 data 0E2H ; address bits 8 to 15.
+0000            144   FLASH_ADD2 data 0E3H ; address bits 16 to 21.
+0000            145   
+0000              2            
+0000              3            CSEG at 0
+0000 020102       4            ljmp mycode
+0003              5   
+0030              6            DSEG at 30H
+0030              7                    bcd: ds 4
+0034              8                    x:      ds 3
+0037              9                    y: ds 3
+0000             10            BSEG
+0000             11                    mf: dbit 1
+0003             12           CSEG                                        ; Absolute CODE segements at fixed memory locations
+0003             13           myLUT:                                        ; Look-up table for 7-seg displays
+0003 C0F9A4B0    14           DB 0C0H, 0F9H, 0A4H, 0B0H, 099H                ; 0 TO 4
+     99
+0008 9282F880    15           DB 092H, 082H, 0F8H, 080H, 090H                ; 4 TO 9 
+     90
+000D             16   CSEG
+000D             17   Wait1s:
+000D 7E00        18   mov R6, #0
+000F 7AB4        19   mov R2, #180
+0011             20   
+0011 79FA        21   L3: mov R1, #250
+0013             22   
+0013 78FA        23   L2: mov R0, #250
+0015             24   
+0015 D8FE        25   L1: djnz R0, L1 ; 3 machine cycles-> 3*30ns*250=22.5us
+0017             26   
+0017 D9FA        27   djnz R1, L2 ; 22.5us*250=5.625ms
+0019 308D10      28   jnb TF0, continue
+001C 0E          29   inc R6
+001D C28D        30   clr TF0
+001F 12002F      31   lcall InitTimer0
+0022 C28C        32   clr TR0
+0024 758A00      33   mov TL0,#0
+0027 758C00      34   mov TH0,#0
+002A D28C        35   setb TR0
+002C             36   continue:
+002C DAE3        37   djnz R2, L3 ; 5.625ms*180=1s (approximately)
+002E             38   
+002E 22          39   ret
+002F             40   
+002F             41   ;Initializes timer/counter 0 as a 16-bit counter
+002F             42   
+002F             43   InitTimer0:
+002F             44   
+002F C28C        45   clr TR0 ; Stop timer 0
+0031             46   
+0031 74F0        47   mov a, #11110000B ; Clear the bits of timer 0
+0033             48   
+0033 5589        49   anl a,TMOD
+0035             50   
+0035 4405        51   orl a, #00000101B ; Set timer 0 as 16-bit counter
+0037             52   
+0037 F589        53   mov TMOD, a
+0039             54   
+0039 22          55   ret
+003A             56   
+003A             57   hex2bcd:
+003A C0E0        58           push acc
+003C C0D0        59           push psw
+003E C000        60           push AR0
+0040             61           
+0040 E4          62           clr a
+0041 F530        63           mov bcd+0, a ; Initialize BCD to 00-00-00 
+0043 F531        64           mov bcd+1, a
+0045 F532        65           mov bcd+2, a
+0047 F533        66           mov bcd+3, a
+0049 7818        67           mov r0, #24  ; Loop counter.
+004B             68   
+004B             69   hex2bcd_L0:
+004B             70           ; Shift binary left        
+004B E535        71           mov a, x+1
+004D A2E7        72           mov c, acc.7 ; This way x remains unchanged!
+004F E534        73           mov a, x+0
+0051 33          74           rlc a
+0052 F534        75           mov x+0, a
+0054 E535        76           mov a, x+1
+0056 33          77           rlc a
+0057 F535        78           mov x+1, a
+0059 E536        79           mov a, x+2
+005B 33          80           rlc a
+005C F536        81           mov x+2, a
+005E             82           
+005E             83       
+005E             84           ; Perform bcd + bcd + carry using BCD arithmetic
+005E E530        85           mov a, bcd+0
+0060 3530        86           addc a, bcd+0
+0062 D4          87           da a
+0063 F530        88           mov bcd+0, a
+0065 E531        89           mov a, bcd+1
+0067 3531        90           addc a, bcd+1
+0069 D4          91           da a
+006A F531        92           mov bcd+1, a
+006C E532        93           mov a, bcd+2
+006E 3532        94           addc a, bcd+2
+0070 D4          95           da a
+0071 F532        96           mov bcd+2, a
+0073 E533        97           mov a, bcd+3
+0075 3533        98           addc a, bcd+3
+0077 D4          99           da a
+0078 F533       100           mov bcd+3, a
+007A            101         
+007A            102   
+007A D8CF       103           djnz r0, hex2bcd_L0
+007C            104   
+007C D000       105           pop AR0
+007E D0D0       106           pop psw
+0080 D0E0       107           pop acc
+0082 22         108           ret
+0083            109            
+0083            110   Display:
+0083 900003     111           mov dptr, #myLUT
+0086            112           ; Display Digit 0
+0086 E530       113           mov A, bcd+0
+0088 540F       114           anl a, #0fh
+008A 93         115           movc A, @A+dptr
+008B F591       116           mov HEX0, A
+008D            117           ; Display Digit 1
+008D E530       118           mov A, bcd+0
+008F C4         119           swap a
+0090 540F       120           anl a, #0fh
+0092 93         121           movc A, @A+dptr
+0093 F592       122           mov HEX1, A
+0095            123           ; Display Digit 2
+0095 E531       124           mov A, bcd+1
+0097 540F       125           anl a, #0fh
+0099 93         126           movc A, @A+dptr
+009A F593       127           mov HEX2, A
+009C            128           ; Display Digit 3
+009C E531       129           mov A, bcd+1
+009E C4         130           swap a
+009F 540F       131           anl a, #0fh
+00A1 93         132           movc A, @A+dptr
+00A2 F594       133           mov HEX3, A
+00A4            134           ; Display Digit 4
+00A4 E532       135           mov A, bcd+2
+00A6 540F       136           anl a, #0fh
+00A8 93         137           movc A, @A+dptr
+00A9 F58E       138           mov HEX4, A
+00AB            139           ; Display Digit 5
+00AB E532       140           mov A, bcd+2
+00AD C4         141           swap a
+00AE 540F       142           anl a, #0fh
+00B0 93         143           movc A, @A+dptr
+00B1 F58F       144           mov HEX5, A
+00B3            145           ; Display Digit 6
+00B3 E533       146           mov A, bcd+3
+00B5 540F       147           anl a, #0fh
+00B7 93         148           movc A, @A+dptr
+00B8 F596       149           mov HEX6, A
+00BA            150           ; Display Digit 7
+00BA E533       151           mov A, bcd+3
+00BC C4         152           swap a
+00BD 540F       153           anl a, #0fh
+00BF 93         154           movc A, @A+dptr
+00C0 F597       155           mov HEX7, A
+00C2 22         156           ret
+00C3            157   
+00C3            158   add24:
+00C3 C0E0       159            push acc
+00C5 C0D0       160            push psw
+00C7 E534       161            mov a,x+0
+00C9 2537       162            add a,y+0
+00CB F534       163            mov x+0,a
+00CD E535       164            mov a,x+1
+00CF 3538       165            addc a,y+1
+00D1 F535       166            mov x+1,a
+00D3 E536       167            mov a,x+2
+00D5 3539       168            addc a,y+2
+00D7 F536       169            mov x+2,a
+00D9 D0D0       170            pop psw
+00DB D0E0       171            pop acc
+00DD 22         172            ret
+00DE            173   
+00DE            174   fixOverflow:
+00DE EE         175            mov a, r6
+00DF 6020       176            jz return
+00E1 7534FF     177            mov x+0, #0FFH
+00E4 7535FF     178            mov x+1, #0FFH
+00E7 753600     179            mov x+2, #00H
+00EA            180            mulL1: 
+00EA 7537FF     181            mov y+0, #0FFH
+00ED 7538FF     182            mov y+1, #0FFH
+00F0 753900     183            mov y+2, #00H
+00F3 1200C3     184            lcall add24
+00F6 DEF2       185            djnz R6, mulL1
+00F8 858C38     186            mov y+1, TH0
+00FB 858A37     187            mov y+0, TL0
+00FE 1200C3     188            lcall add24
+0101 22         189            return: ret
+0102            190   
+0102            191   mycode:
+0102 75817F     192            mov SP, #7FH
+0105 75E800     193            mov LEDRA,#0
+0108 759500     194            mov LEDRB,#0
+010B 759E00     195            mov LEDRC,#0
+010E 75F800     196            mov LEDG,#0
+0111            197            
+0111            198            ;mov x+0,#0FFH
+0111            199            ;mov x+1,#0FFH
+0111            200            ;mov x+2,#0H
+0111            201            ;mov y+0,#0FFH
+0111            202            ;mov y+1,#0FFH
+0111            203            ;mov y+2,#0H
+0111            204            
+0111            205            ;call add24
+0111            206            ;mov LEDRC,x+2
+0111            207            ;mov LEDRB,x+1
+0111            208            ;mov LEDRA,x+0
+0111            209            
+0111            210            ;jmp forever
+0111            211            
+0111            212            
+0111            213            ; Configure T0 as an input (original 8051 only).
+0111            214   
+0111            215   ; Not needed but harmless in the DE2-8052
+0111 D2B4       216   setb T0
+0113            217   
+0113            218   ; 1) Set up the counter to count pulses from T0
+0113            219   
+0113 12002F     220   lcall InitTimer0
+0116            221   
+0116            222   ; Stop counter 0
+0116            223   
+0116 C28C       224   clr TR0
+0118            225   
+0118            226   ; 2) Reset the counter
+0118            227   
+0118 758A00     228   mov TL0, #0
+011B            229   
+011B 758C00     230   mov TH0, #0
+011E            231   
+011E            232   ; 3) Start counting
+011E            233   
+011E D28C       234   setb TR0
+0120            235   
+0120            236   ; 4) Wait one second
+0120            237   
+0120 12000D     238   lcall Wait1s
+0123            239   
+0123            240   ; 5) Stop counter 0, TH0-TL0 has the frequency!
+0123            241   
+0123 C28C       242   clr TR0
+0125            243   
+0125            244   ; Do something useful with the frequency
+0125            245   
+0125 11DE       246   call fixOverflow
+0127 12003A     247   lcall hex2bcd
+012A 120083     248   lcall display
+012D 12003A     249   lcall hex2bcd
+0130 120083     250   lcall display
+0133 8534F8     251   mov LEDG, x+0
+0136 8535E8     252   mov LEDRA, x+1
+0139 853695     253   mov LEDRB, x+2
+013C            254   
+013C            255   forever:
+013C            256            
+013C 80FE       257            jmp forever
+013E            258   
+013E            259   
+013E            260   
+013E            261   
+013E            262            
+013E            263   en
