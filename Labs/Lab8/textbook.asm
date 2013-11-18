@@ -6,10 +6,18 @@ org 0000H
 
 ; On the DE2-8052, with a 33.33MHz clock, one cycle takes 30ns
 Wait1s:
-	mov R2, #180
+	mov R7,#0
+	mov R2, #178
 	L3: mov R1, #250
 	L2: mov R0, #250
 	L1: djnz R0, L1 ; 3 machine cycles-> 3*30ns*250=22.5us
+	jnb TF0,continue
+	;--------------------------------------------------------------------
+	;Overflow occured, increment R7, set the registers to 0, start timer:
+	clr TF0
+	inc R7
+	;--------------------------------------------------------------------
+	continue:
 	djnz R1, L2 ; 22.5us*250=5.625ms
 	djnz R2, L3 ; 5.625ms*180=1s (approximately)
 	ret
@@ -30,7 +38,7 @@ MyProgram:
 	mov LEDRB, #0
 	mov LEDRC, #0
 	mov LEDG, #0
-		
+forever:	
 	; Configure T0 as an input (original 8051 only).
 	; Not needed but harmless in the DE2-8052
 	setb T0
@@ -52,8 +60,8 @@ MyProgram:
 	;Display frequency on LED's
 	mov LEDRB,TH0
 	mov LEDRA,TL0
-
-forever:
+	mov LEDG,R7
+	
     jmp forever
 
 END
