@@ -4,6 +4,39 @@ CSEG
 org 0000H
    ljmp MyProgram
 
+add24:
+	;x=x+y
+	mov a,R0
+	add a,R3
+	mov R0,a
+	mov a,R1
+	addc a,R4
+	mov R1,a
+	mov a,R2
+	addc a,R5
+	mov R2,a
+	ret
+
+multiply24:
+	;x=65536*R7
+	mov R3,#0FFH
+	mov R4,#0FFH
+	mov R5,#0
+	mov R0,#0
+	mov R1,#0
+	mov R2,#0
+	mov a,R7
+	mov R6,a
+	jnz multiply24_L1
+	ret
+	multiply24_L1:
+	call add24;x=x+65536
+	dec R6
+	mov a,R6
+	jnz multiply24_L1
+	ret
+	
+
 ; On the DE2-8052, with a 33.33MHz clock, one cycle takes 30ns
 Wait1s:
 	mov R7,#0
@@ -58,9 +91,22 @@ forever:
 	; Do something useful with the frequency!
 	
 	;Display frequency on LED's
-	mov LEDRB,TH0
-	mov LEDRA,TL0
-	mov LEDG,R7
+	
+	;------------------------------------------------------------
+	;Display values of counter registers, and the overflow register (R7)
+	;mov LEDRB,TH0
+	;mov LEDRA,TL0
+	;mov LEDG,R7
+	;------------------------------------------------------------
+	
+	call multiply24
+	mov R3,TL0
+	mov R4,TH0
+	mov R5,#0
+	call add24
+	mov LEDRB,R2
+	mov LEDRA,R1
+	mov LEDG,R0
 	
     jmp forever
 
