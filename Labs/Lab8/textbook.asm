@@ -7,7 +7,7 @@ org 0000H
 	CSEG                                        ; Absolute CODE segements at fixed memory locations
     myLUT:                                        ; Look-up table for 7-seg displays
     DB 0C0H, 0F9H, 0A4H, 0B0H, 099H                ; 0 TO 4
-    DB 092H, 082H, 0F8H, 080H, 090H                ; 4 TO 9
+    DB 092H, 082H, 0F8H, 080H, 090H, 0FFH          ; 4 TO 9, OFF
 
 CSEG    
 hex2bcd:
@@ -110,6 +110,95 @@ Display:
         movc A, @A+dptr
         mov HEX7, A
         ret
+
+correctBCDvalues:
+	;if high part of R6 is zero
+	mov a,R6
+	anl a,#0F0H
+	swap a
+	jnz correctBCDvalues_return
+	;turn off HEX7:
+	mov a,R6
+	anl a,#0FH
+	orl a,#0A0H
+	mov R6,a
+	
+	;if low part of R6 is zero
+	mov a,R6
+	anl a,#0FH
+	jnz correctBCDvalues_return
+	;turn off HEX6:
+	mov a,R6
+	anl a,#0F0H
+	orl a,#0AH
+	mov R6,a
+	
+	;if high part of R5 is zero
+	mov a,R5
+	anl a,#0F0H
+	swap a
+	jnz correctBCDvalues_return
+	;turn off HEX5
+	mov a,R5
+	anl a,#0FH
+	orl a,#0A0H
+	mov R5,a
+	
+	;if low part of R5 is zero
+	mov a,R5
+	anl a,#0FH
+	jnz correctBCDvalues_return
+	;turn off HEX4
+	mov a,R5
+	anl a,#0F0H
+	orl a,#0AH
+	mov R5,a
+	
+	;if high part of R4 is zero
+	mov a,R4
+	anl a,#0F0H
+	swap a
+	jnz correctBCDvalues_return
+	;turn off HEX3
+	mov a,R4
+	anl a,#0FH
+	orl a,#0A0H
+	mov R4,a
+	
+	;if low part of R4 is zero
+	mov a,R4
+	anl a,#0FH
+	jnz correctBCDvalues_return
+	;turn off HEX2
+	mov a,R4
+	anl a,#0F0H
+	orl a,#0AH
+	mov R4,a
+	
+	;if high part of R3 is zero
+	mov a,R3
+	anl a,#0F0H
+	swap a
+	jnz correctBCDvalues_return
+	;turn off HEX1
+	mov a,R3
+	anl a,#0FH
+	orl a,#0A0H
+	mov R3,a
+	
+	;if low part of R3 is zero
+	mov a,R3
+	anl a,#0FH
+	jnz correctBCDvalues_return
+	;turn off HEX0
+	mov a,R3
+	anl a,#0F0H
+	orl a,#0AH
+	mov R3,a
+	
+	ret
+	
+	correctBCDvalues_return: ret
 
 add24:
 	;x=x+y
@@ -216,6 +305,7 @@ forever:
 	mov LEDG,R0
 	
 	call hex2bcd
+	call correctBCDvalues
 	call display
 	
     jmp forever
