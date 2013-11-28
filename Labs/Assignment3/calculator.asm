@@ -262,7 +262,7 @@ getfirstnumber
     rts
 ;--------------------------------------------------
 ; it puts the second number gathered to a variable
-; in not realy
+; in tempy
 ;--------------------------------------------------
 getsecondnumber
     jsr bcd2bin
