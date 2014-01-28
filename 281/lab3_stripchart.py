@@ -1,3 +1,8 @@
+#@Author: Shivanshu Goyal
+#Student Number: 33245127
+#Date: January 27, 2014
+#Lab 3 - SPI and Data Logging using Python
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
