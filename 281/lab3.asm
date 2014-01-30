@@ -1,3 +1,7 @@
+;@Author: Shivanshu Goyal
+;Date: January 27, 2014
+;Lab 3 - SPI and Data Logging using Python
+
 $MODDE2
 
 org 0000H
